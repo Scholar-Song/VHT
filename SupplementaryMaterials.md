@@ -1,3 +1,19 @@
+## Detailed Numerical Analysis of the Ablation Study
+
+This supplementary document provides the exhaustive numerical analysis and exact percentage improvements demonstrating the computational effectiveness of each VHT component.
+
+As presented in Table V of the main manuscript, the original VHT maintains the best overall performance. The detailed processing degradation upon removing specific modules and tricks is quantified as follows:
+
+1. **w/o BMA-VMD:** The noise effect of the raw series significantly degrades the model's performance. Removing this signal-conditioning stage results in error spikes as high as 36.08% in MAE and 59.71% in MSE for the KLa indicator. This mathematically proves the algorithmic necessity of BMA-VMD for decomposing the original series.
+2. **w/o PMformer:** Replacing the PMformer with a base NLP-style Transformer architecture introduces huge estimation errors, justifying that conventional point-wise prediction logic translates poorly to highly dynamic industrial time-series.
+3. **w/o DR-PK Net:** Utilizing an equal-weighting strategy brings more than a 21.7% error increase in MAE, MSE, and RMSE across all three indicators. This proves that purely equal-weight reconstruction cannot fully reproduce the original series and fails to balance residual noise effectively.
+4. **w/o Trick 1:** The huge drop in model performance caused by applying a fixed 6-layer decomposition proves two points: unconstrained decomposition algorithms negatively affect the model's baseline stability, and the Trick 1 method successfully optimizes the decomposition depth.
+5. **w/o Trick 2:** The model's error rises by more than 22.8% after dropping the hyperparameters defined by the mechanistic model (e.g., using $P=64$ instead of $P=6$). This substantial computational drop proves that combining the patch length with production reality is a strategy consistent with both theoretical derivation and practical testing.
+6. **w/o Trick 3:** Giving up the prior knowledge layer clearly has a negative computational impact on the reconstruction of the original series, which is especially reflected in the MSE metric degradation. This validates the algorithmic necessity of applying this trick in the reconstruction approach.
+
+
+
+
 
 | Model | Type | OUR (MAE) | OUR (MSE) | OUR (RMSE) | OUR (MAPE) | KLa (MAE) | KLa (MSE) | KLa (RMSE) | KLa (MAPE) | CER (MAE) | CER (MSE) | CER (RMSE) | CER (MAPE) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
