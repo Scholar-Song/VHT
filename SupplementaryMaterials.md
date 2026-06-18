@@ -1,19 +1,10 @@
-## Detailed Numerical Analysis of the Ablation Study
+## Supplementary Comparison of Additional Benchmark Methods
 
-This supplementary document provides the exhaustive numerical analysis and exact percentage improvements demonstrating the computational effectiveness of each VHT component.
-
-As presented in Table V of the main manuscript, the original VHT maintains the best overall performance. The detailed processing degradation upon removing specific modules and tricks is quantified as follows:
-
-1. **w/o BMA-VMD:** The noise effect of the raw series significantly degrades the model's performance. Removing this signal-conditioning stage results in error spikes as high as 36.08% in MAE and 59.71% in MSE for the KLa indicator. This mathematically proves the algorithmic necessity of BMA-VMD for decomposing the original series.
-2. **w/o PMformer:** Replacing the PMformer with a base NLP-style Transformer architecture introduces huge estimation errors, justifying that conventional point-wise prediction logic translates poorly to highly dynamic industrial time-series.
-3. **w/o DR-PK Net:** Utilizing an equal-weighting strategy brings more than a 21.7% error increase in MAE, MSE, and RMSE across all three indicators. This proves that purely equal-weight reconstruction cannot fully reproduce the original series and fails to balance residual noise effectively.
-4. **w/o Trick 1:** The huge drop in model performance caused by applying a fixed 6-layer decomposition proves two points: unconstrained decomposition algorithms negatively affect the model's baseline stability, and the Trick 1 method successfully optimizes the decomposition depth.
-5. **w/o Trick 2:** The model's error rises by more than 22.8% after dropping the hyperparameters defined by the mechanistic model (e.g., using $P=64$ instead of $P=6$). This substantial computational drop proves that combining the patch length with production reality is a strategy consistent with both theoretical derivation and practical testing.
-6. **w/o Trick 3:** Giving up the prior knowledge layer clearly has a negative computational impact on the reconstruction of the original series, which is especially reflected in the MSE metric degradation. This validates the algorithmic necessity of applying this trick in the reconstruction approach.
+Table I reports the full offline comparison results of the additional benchmark methods implemented on the same datasets. Only the seven most competitive methods are discussed in the _Section V-B: Main Resualt_ in the paper, while the complete results of all 14 algorithms are provided in the supplementary GitHub repository for transparency and reproducibility. The table summarizes four evaluation metrics, including MAE, MSE, RMSE, and MAPE, on the OUR, KLa, and CER datasets. As shown, our proposed method, VHT, achieves the best overall performance on most metrics across the three datasets.
 
 
 
-
+Table I. Full comparison of 14 benchmark algorithms on the OUR, KLa, and CER datasets in terms of MAE, MSE, RMSE, and MAPE. The complete results are provided in the supplementary GitHub repository, while the main text focuses on the five most competitive methods.
 
 | Model | Type | OUR (MAE) | OUR (MSE) | OUR (RMSE) | OUR (MAPE) | KLa (MAE) | KLa (MSE) | KLa (RMSE) | KLa (MAPE) | CER (MAE) | CER (MSE) | CER (RMSE) | CER (MAPE) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -31,3 +22,18 @@ As presented in Table V of the main manuscript, the original VHT maintains the b
 | AGCRN | GNN+RNN | 0.763 | 1.002 | 1.001 | 1.992% | 0.742 | 0.913 | 0.956 | 3.199% | 0.570 | 0.582 | 0.763 | 2.240% |
 | CEGlo-GNN | Dec.+GNN | 0.778 | 0.751 | 0.867 | 2.015% | 0.888 | 1.010 | 1.005 | 3.826% | 0.749 | 0.692 | 0.832 | 2.943% |
 | VHT(Ours) | Dec.+TB.+Patch | **0.441** | **0.346** | **0.589** | 1.465% | **0.496** | **0.387** | **0.622** | 3.132% | **0.370** | **0.268** | **0.518** | **1.181%** |
+
+## Detailed Numerical Analysis of the Ablation Study
+
+This supplementary document provides the exhaustive numerical analysis and exact percentage improvements demonstrating the computational effectiveness of each VHT component.
+
+As presented in Table V of the main manuscript, the original VHT maintains the best overall performance. The detailed processing degradation upon removing specific modules and tricks is quantified as follows:
+
+1. **w/o BMA-VMD:** The noise effect of the raw series significantly degrades the model's performance. Removing this signal-conditioning stage results in error spikes as high as 36.08% in MAE and 59.71% in MSE for the KLa indicator. This mathematically proves the algorithmic necessity of BMA-VMD for decomposing the original series.
+2. **w/o PMformer:** Replacing the PMformer with a base NLP-style Transformer architecture introduces huge estimation errors, justifying that conventional point-wise prediction logic translates poorly to highly dynamic industrial time-series.
+3. **w/o DR-PK Net:** Utilizing an equal-weighting strategy brings more than a 21.7% error increase in MAE, MSE, and RMSE across all three indicators. This proves that purely equal-weight reconstruction cannot fully reproduce the original series and fails to balance residual noise effectively.
+4. **w/o Trick 1:** The huge drop in model performance caused by applying a fixed 6-layer decomposition proves two points: unconstrained decomposition algorithms negatively affect the model's baseline stability, and the Trick 1 method successfully optimizes the decomposition depth.
+5. **w/o Trick 2:** The model's error rises by more than 22.8% after dropping the hyperparameters defined by the mechanistic model (e.g., using $P=64$ instead of $P=6$). This substantial computational drop proves that combining the patch length with production reality is a strategy consistent with both theoretical derivation and practical testing.
+6. **w/o Trick 3:** Giving up the prior knowledge layer clearly has a negative computational impact on the reconstruction of the original series, which is especially reflected in the MSE metric degradation. This validates the algorithmic necessity of applying this trick in the reconstruction approach.
+
+
